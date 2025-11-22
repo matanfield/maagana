@@ -1,0 +1,290 @@
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ArrowDown, Heart, Users, Sun, Home } from 'lucide-react';
+
+// רכיב המדמה כתם צבע מים (Watercolor Blob)
+// משתמש ב-Border Radius אקראי כדי לייצר צורה אורגנית
+const WatercolorBlob = ({ color, className = '', opacity = 'opacity-20', circular = false }) => {
+  const blobShapes = [
+    "60% 40% 30% 70% / 60% 30% 70% 40%",
+    "30% 70% 70% 30% / 30% 30% 70% 70%",
+    "50% 50% 20% 80% / 25% 80% 20% 75%",
+    "70% 30% 30% 70% / 60% 40% 60% 40%"
+  ];
+  
+  // בחירה אקראית (סטטית עבור הרינדור הזה)
+  // אם circular, משתמשים בצורה אורגנית אקראית במקום מעגלית
+  const shape = circular ? blobShapes[Math.floor(Math.random() * blobShapes.length)] : blobShapes[Math.floor(Math.random() * blobShapes.length)];
+
+  return (
+    <div 
+      className={`absolute z-0 ${opacity} blur-xl mix-blend-multiply ${className}`}
+      style={{ 
+        borderRadius: shape,
+        backgroundColor: color,
+        transform: 'scale(1.2)'
+      }}
+    />
+  );
+};
+
+// איורים בסגנון קו (Ink Sketch Style)
+// שימוש ב-SVG עם פילטר 'turbulence' כדי לתת לקו מראה רועד וידני
+const SketchIllustration = ({ type, blobColor }) => {
+  return (
+    <div className="relative w-full h-64 md:h-80 flex items-center justify-center p-8">
+      {/* פילטר לאפקט הדיו */}
+      <svg className="absolute w-0 h-0">
+        <defs>
+          <filter id="ink-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* רקע צבע מים בהתאם לסוג האיור */}
+      {type === 'kinneret' && blobColor && (
+        <>
+          <WatercolorBlob 
+            color={blobColor} 
+            className="w-[320px] h-[320px] inset-0 m-auto" 
+            opacity={blobColor === "#B8E6E6" ? "opacity-60" : "opacity-25"} 
+            circular={true} 
+          />
+        </>
+      )}
+      {type === 'community' && (
+        <>
+        </>
+      )}
+      {type === 'vibe' && (
+        <>
+        </>
+      )}
+      {type === 'model' && (
+        <>
+        </>
+      )}
+
+      {/* הציור עצמו - קווים שחורים */}
+      <svg 
+        viewBox="0 0 200 200" 
+        className="relative z-10 w-full h-full drop-shadow-sm"
+        style={{ filter: 'url(#ink-filter)' }} // החלת אפקט הדיו
+      >
+        {type === 'kinneret' && (
+          <g stroke="#1a202c" strokeWidth="1.5" fill="none" strokeLinecap="round">
+            {/* הרים ברקע */}
+            <path d="M20 120 Q60 80 100 110 T180 100" />
+            <path d="M120 110 Q150 90 190 115" />
+            {/* אדוות מים */}
+            <path d="M30 140 Q50 130 70 140 T110 140" />
+            <path d="M80 155 Q120 145 160 155" />
+            <path d="M40 170 Q90 160 140 170" />
+            {/* שמש/ירח */}
+            <circle cx="150" cy="50" r="15" strokeWidth="1" />
+          </g>
+        )}
+
+        {type === 'community' && (
+          <g stroke="#1a202c" strokeWidth="1.5" fill="none" strokeLinecap="round">
+             {/* מעגל אבסטרקטי של אנשים */}
+             <ellipse cx="100" cy="130" rx="60" ry="20" strokeDasharray="10 10" />
+             <path d="M80 115 L80 90 M120 115 L120 90 M100 118 L100 85" />
+             <circle cx="80" cy="80" r="5" />
+             <circle cx="120" cy="80" r="5" />
+             <circle cx="100" cy="75" r="5" />
+             {/* ידיים מושטות */}
+             <path d="M60 120 Q40 100 30 120" />
+             <path d="M140 120 Q160 100 170 120" />
+          </g>
+        )}
+
+        {type === 'vibe' && (
+          <g stroke="#1a202c" strokeWidth="1.5" fill="none" strokeLinecap="round">
+            {/* ערסל ועץ */}
+            <path d="M40 180 L40 60 Q30 40 50 30 Q70 40 60 60" /> {/* גזע עץ */}
+            <path d="M160 180 L160 70" /> {/* גזע שני */}
+            <path d="M40 100 Q100 150 160 110" /> {/* ערסל */}
+            <path d="M100 20 L100 40 M80 30 L120 30" strokeWidth="0.5" opacity="0.5" /> {/* כוכבים/ניצוץ */}
+          </g>
+        )}
+
+        {type === 'model' && (
+          <g stroke="#1a202c" strokeWidth="1.5" fill="none" strokeLinecap="round">
+             {/* בונגלוס פשוטים */}
+             <path d="M30 140 L30 100 L60 80 L90 100 L90 140 Z" />
+             <path d="M110 140 L110 110 L140 90 L170 110 L170 140 Z" />
+             {/* דלתות */}
+             <path d="M50 140 L50 110" />
+             <path d="M130 140 L130 120" />
+             {/* צמחיה */}
+             <path d="M80 140 Q85 120 90 140" />
+             <path d="M100 140 Q105 125 110 140" />
+          </g>
+        )}
+      </svg>
+    </div>
+  );
+};
+
+const Section = ({ id, title, text, type, reverse, blobColor }) => {
+  return (
+    <div id={id} className="py-20 md:py-32 px-6 md:px-12 max-w-6xl mx-auto scroll-mt-20">
+      <div className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 ${reverse ? 'md:flex-row-reverse' : ''}`}>
+        
+        {/* אזור הטקסט */}
+        <div className="flex-1 text-right space-y-6">
+          <h2 className="text-3xl md:text-5xl font-serif text-gray-800 leading-tight">
+            {title}
+          </h2>
+          <div className="h-1 w-16 bg-gray-800 opacity-20 rounded-full"></div>
+          <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
+            {text}
+          </p>
+        </div>
+
+        {/* אזור האיור */}
+        <div className="flex-1 w-full flex justify-center">
+          <SketchIllustration type={type} blobColor={blobColor} />
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default function KinneretCoop() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-teal-100 selection:text-teal-900" dir="rtl">
+      
+      {/* Navbar */}
+      <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-8'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="text-2xl font-serif font-bold tracking-wide border-b-2 border-gray-800 pb-1 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            מעגנה.
+          </div>
+          <div className="hidden md:flex gap-8 text-sm font-medium tracking-wide text-gray-600">
+            <button onClick={() => scrollToSection('simplicity')} className="hover:text-black transition-colors">פשטות</button>
+            <button onClick={() => scrollToSection('community')} className="hover:text-black transition-colors">קהילה</button>
+            <button onClick={() => scrollToSection('nature')} className="hover:text-black transition-colors">טבע</button>
+            <button onClick={() => scrollToSection('balance')} className="hover:text-black transition-colors">איזון</button>
+          </div>
+          <button 
+            onClick={() => scrollToSection('join-us')}
+            className="border border-gray-900 px-6 py-2 rounded-full text-sm hover:bg-gray-900 hover:text-white transition-all duration-300"
+          >
+            הצטרפו אלינו
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <header className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <div className="z-10 space-y-8 max-w-3xl animate-fade-in-up">
+          <h1 className="text-5xl md:text-7xl font-serif text-gray-900 leading-tight">
+            בית משלנו <br/> על המים.
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto">
+            מקימים יחד כפר נופש קואופרטיבי בכנרת. <br/>
+            טבע, פשטות, קהילה.
+          </p>
+          
+          <div className="pt-12">
+             <SketchIllustration type="kinneret" blobColor="#B8E6E6" />
+          </div>
+
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400 cursor-pointer" onClick={() => scrollToSection('simplicity')}>
+            <ArrowDown size={24} />
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content Sections - ZigZag */}
+      <main className="relative">
+        
+        {/* Section 1: Simplicity */}
+        <Section 
+          id="simplicity"
+          title="פשטות"
+          text="ימים אחרים. זכרון. חופשה פשוטה. ערסל על המים. צל של עץ. אנשים שאוהבים. מקום שהוא בית."
+          type="vibe"
+          reverse={false}
+        />
+
+        {/* Section 2: Community */}
+        <Section 
+          id="community"
+          title="קהילה"
+          text="קהילה גדולה של משפחות שמתאגדות יחד כדי לקנות קרקע ולבנות חלום."
+          type="community"
+          reverse={true}
+        />
+
+        {/* Section 3: Vibe/Sinai */}
+        <Section 
+          id="nature"
+          title="סיני, גרסת הגליל"
+          text="דמיינו את השקט של המדבר, עם המים המתוקים. ערסלים בין עצי אקליפטוס, מבנים נמוכים בגוון טבעי. מוזיקה שקטה, ומרחב שנותן לזמן לעצור."
+          type="kinneret"
+          reverse={false}
+        />
+
+        {/* Section 4: Balance */}
+        <Section 
+          id="balance"
+          title="איזון"
+          text="קהילה שהיא גם עסק. מרחב לחברי קואופרטיב וגם לתיירות חוץ. פשטות טבעית ברמת גימור גבוהה. מרחב לדיאלוג. גם וגם."
+          type="model"
+          reverse={true}
+        />
+
+      </main>
+
+      {/* Footer / CTA */}
+      <footer id="join-us" className="bg-gray-50 py-24 px-6 relative overflow-hidden scroll-mt-20">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-serif mb-6 text-gray-900">הסיפור הזה מתחיל.</h2>
+          <p className="text-xl text-gray-600 font-light mb-12 max-w-2xl mx-auto">
+            מחפשים שותפים לדרך. רוצים להצטרף?
+          </p>
+
+          <form className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto mb-16" onSubmit={(e) => e.preventDefault()}>
+            <input 
+              type="email" 
+              placeholder="כתובת המייל שלך" 
+              className="px-6 py-3 rounded-md border border-gray-300 bg-white focus:outline-none focus:border-gray-900 w-full"
+            />
+            <button className="bg-gray-900 text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors whitespace-nowrap">
+              עדכנו אותי
+            </button>
+          </form>
+
+          <div className="flex justify-center gap-8 text-sm text-gray-500 pt-8 border-t border-gray-200">
+            <a href="#" className="hover:text-gray-900">שאלות ותשובות</a>
+            <a href="#" className="hover:text-gray-900">מי אנחנו</a>
+            <a href="#" className="hover:text-gray-900">צרו קשר</a>
+          </div>
+          <p className="mt-8 text-xs text-gray-400">© 2024 קואופרטיב הכנרת. כל הזכויות שמורות לחלומות.</p>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
+
