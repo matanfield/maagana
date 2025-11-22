@@ -39,11 +39,15 @@ const SketchIllustration = ({ type, blobColor }) => {
             <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise" />
             <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
           </filter>
+          <filter id="ink-filter-rough">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="4" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+          </filter>
         </defs>
       </svg>
 
       {/* רקע צבע מים בהתאם לסוג האיור */}
-      {type === 'kinneret' && blobColor && (
+      {(type === 'kinneret' || type === 'kinneret-hero') && blobColor && (
         <>
           <WatercolorBlob 
             color={blobColor} 
@@ -68,10 +72,29 @@ const SketchIllustration = ({ type, blobColor }) => {
 
       {/* הציור עצמו - קווים שחורים */}
       <svg 
-        viewBox="0 0 200 200" 
+        viewBox={type === 'kinneret-hero' ? "0 0 280 160" : "0 0 200 200"}
         className="relative z-10 w-full h-full drop-shadow-sm"
-        style={{ filter: 'url(#ink-filter)' }} // החלת אפקט הדיו
+        style={{ filter: type === 'kinneret-hero' ? 'url(#ink-filter-rough)' : 'url(#ink-filter)' }} // החלת אפקט הדיו
       >
+        {type === 'kinneret-hero' && (
+          <g stroke="#1a202c" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            {/* left house */}
+            <path d="M60 104 L60 68 L96 46 L132 68 L132 104 Z" />
+            {/* left door */}
+            <path d="M88 104 L88 83 L100 83 L100 104" />
+            {/* right house */}
+            <path d="M154 106 L154 74 L186 54 L218 74 L218 106 Z" />
+            {/* right arched door */}
+            <path d="M188 106 L188 88 Q188 80 196 80 Q204 80 204 88 L204 106" />
+            {/* main shore / wave - bay shape arching away from houses, edges lower */}
+            <path d="M36 116 C50 110 70 108 90 110 C110 112 130 110 150 112 C170 114 190 112 210 114 C230 116 250 114 264 118" />
+            {/* middle wave - bay shape, edges lower */}
+            <path d="M52 132 C70 126 90 124 110 126 C130 128 150 126 170 128 C190 130 210 128 230 130 C240 131 250 129 260 133" />
+            {/* bottom wave - bay shape, edges lower */}
+            <path d="M98 144 C115 138 135 136 155 138 C175 140 195 138 215 142" />
+          </g>
+        )}
+        
         {type === 'kinneret' && (
           <g stroke="#1a202c" strokeWidth="1.5" fill="none" strokeLinecap="round">
             {/* הרים ברקע */}
@@ -180,9 +203,9 @@ export default function KinneretCoop() {
             מעגנה.
           </div>
           <div className="hidden md:flex gap-8 text-sm font-medium tracking-wide text-gray-600">
+            <button onClick={() => scrollToSection('nature')} className="hover:text-black transition-colors">טבע</button>
             <button onClick={() => scrollToSection('simplicity')} className="hover:text-black transition-colors">פשטות</button>
             <button onClick={() => scrollToSection('community')} className="hover:text-black transition-colors">קהילה</button>
-            <button onClick={() => scrollToSection('nature')} className="hover:text-black transition-colors">טבע</button>
             <button onClick={() => scrollToSection('balance')} className="hover:text-black transition-colors">איזון</button>
           </div>
           <button 
@@ -206,7 +229,7 @@ export default function KinneretCoop() {
           </p>
           
           <div className="pt-12">
-             <SketchIllustration type="kinneret" blobColor="#B8E6E6" />
+             <SketchIllustration type="kinneret-hero" blobColor="#B8E6E6" />
           </div>
 
           <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400 cursor-pointer" onClick={() => scrollToSection('simplicity')}>
@@ -218,30 +241,30 @@ export default function KinneretCoop() {
       {/* Main Content Sections - ZigZag */}
       <main className="relative">
         
-        {/* Section 1: Simplicity */}
+        {/* Section 1: Nature */}
+        <Section 
+          id="nature"
+          title="טבע"
+          text="דמיינו שקט של מדבר במים מתוקים. ערסלים בין עצי האקליפטוס, מבנים נמוכים בגוון טבעי. בואכה סיני, גרסת הגליל. המוזיקה שקטה, ומרחב שנותן לזמן לעצור."
+          type="kinneret"
+          reverse={false}
+        />
+
+        {/* Section 2: Simplicity */}
         <Section 
           id="simplicity"
           title="פשטות"
           text="ימים אחרים. זכרון. חופשה פשוטה. ערסל על המים. צל של עץ. אנשים שאוהבים. מקום שהוא בית."
           type="vibe"
-          reverse={false}
+          reverse={true}
         />
 
-        {/* Section 2: Community */}
+        {/* Section 3: Community */}
         <Section 
           id="community"
           title="קהילה"
           text="קהילה גדולה של משפחות שמתאגדות יחד כדי לקנות קרקע ולבנות חלום."
           type="community"
-          reverse={true}
-        />
-
-        {/* Section 3: Vibe/Sinai */}
-        <Section 
-          id="nature"
-          title="סיני, גרסת הגליל"
-          text="דמיינו את השקט של המדבר, עם המים המתוקים. ערסלים בין עצי אקליפטוס, מבנים נמוכים בגוון טבעי. מוזיקה שקטה, ומרחב שנותן לזמן לעצור."
-          type="kinneret"
           reverse={false}
         />
 
