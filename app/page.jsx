@@ -239,27 +239,28 @@ export default function Home() {
         </div>
       </nav>
 
-      <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden pt-24 md:pt-28">
-        <div className="z-10 space-y-8 max-w-3xl animate-fade-in-up">
-          <h1 className="text-5xl md:text-7xl font-serif text-gray-900 leading-tight">
-            בית משלנו <br/> על המים.
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto">
-            מקימים יחד כפר נופש קואופרטיבי בכנרת. <br/>
-            טבע, פשטות, קהילה.
-          </p>
-          
-          <div className="pt-12">
-             <SketchIllustration type="kinneret-hero" blobColor="#B8E6E6" />
-          </div>
+      <div className="relative">
+        <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-24 md:pt-28">
+          <div className="z-10 space-y-8 max-w-3xl animate-fade-in-up">
+            <h1 className="text-5xl md:text-7xl font-serif text-gray-900 leading-tight">
+              בית משלנו <br/> על המים.
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto">
+              מקימים יחד כפר נופש קואופרטיבי בכנרת. <br/>
+              טבע, פשטות, קהילה.
+            </p>
+            
+            <div className="pt-12">
+               <SketchIllustration type="kinneret-hero" blobColor="#B8E6E6" />
+            </div>
 
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400 cursor-pointer" onClick={(e) => scrollToSection(e, 'simplicity')}>
-            <ArrowDown size={24} />
+            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400 cursor-pointer" onClick={(e) => scrollToSection(e, 'simplicity')}>
+              <ArrowDown size={24} />
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="relative">
+        <main className="relative">
         <Section 
           id="nature"
           title="טבע"
@@ -292,6 +293,7 @@ export default function Home() {
           reverse={true}
         />
       </main>
+      </div>
 
       <footer id="join-us" className="bg-gray-50 py-24 px-6 relative overflow-hidden scroll-mt-20">
         <div className="max-w-4xl mx-auto text-center relative z-10">
