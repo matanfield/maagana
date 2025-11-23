@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Heart } from 'lucide-react';
 
 // רכיב המדמה כתם צבע מים (Watercolor Blob)
 const WatercolorBlob = ({ color, className = '', opacity = 'opacity-20', circular = false }) => {
@@ -312,15 +312,22 @@ export default function Home() {
             />
             <button 
               type="submit"
-              disabled={isSubmitting}
-              className="bg-gray-900 text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting || submitStatus === 'success'}
+              className={`px-8 py-3 rounded-md transition-all whitespace-nowrap disabled:cursor-not-allowed ${
+                submitStatus === 'success' 
+                  ? 'bg-gray-900 text-red-500' 
+                  : 'bg-gray-900 text-white hover:bg-gray-800 disabled:opacity-50'
+              }`}
             >
-              {isSubmitting ? 'שולח...' : 'עדכנו אותי'}
+              {submitStatus === 'success' ? (
+                <Heart size={20} className="mx-auto" fill="currentColor" />
+              ) : isSubmitting ? (
+                'שולח...'
+              ) : (
+                'עדכנו אותי'
+              )}
             </button>
           </form>
-          {submitStatus === 'success' && (
-            <p className="text-green-600 text-sm mb-4">תודה! נרשמת בהצלחה.</p>
-          )}
           {submitStatus === 'error' && (
             <p className="text-red-600 text-sm mb-4">אירעה שגיאה. נסה שוב מאוחר יותר.</p>
           )}
