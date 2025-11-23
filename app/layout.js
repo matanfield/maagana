@@ -16,7 +16,7 @@ export const metadata = {
     description: 'מקימים יחד כפר נופש קואופרטיבי בכנרת. טבע, פשטות, קהילה.',
     images: [
       {
-        url: `${siteUrl}/og-image?v=2`,
+        url: `${siteUrl}/og-image?v=3`,
         width: 1200,
         height: 630,
         alt: 'מעגנה - בית משלנו על המים',
