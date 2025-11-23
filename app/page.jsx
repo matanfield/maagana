@@ -332,7 +332,7 @@ export default function Home() {
             <p className="text-red-600 text-sm mb-4">אירעה שגיאה. נסה שוב מאוחר יותר.</p>
           )}
 
-          <p className="mt-8 text-xs text-gray-400">© 2025 קואופרטיב מעגנה. כל הזכויות שמורות לחלומות.</p>
+          <p className="mt-8 text-xs text-gray-400">© 2025 קואופרטיב מעגנה. כל הזכויות שמורות לחולמים.</p>
         </div>
       </footer>
     </div>
