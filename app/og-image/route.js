@@ -2,8 +2,8 @@ import { ImageResponse } from 'next/og'
 
 export const runtime = 'nodejs'
 
-export async function GET() {
-  return new ImageResponse(
+export async function GET(request) {
+  const imageResponse = new ImageResponse(
     (
       <div
         style={{
@@ -14,19 +14,8 @@ export async function GET() {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#ffffff',
-          backgroundImage: 'linear-gradient(to bottom, #ffffff 0%, #B8E6E6 100%)',
         }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-280px',
-            width: '85%',
-            height: '65%',
-            background: 'radial-gradient(circle at 50% 0%, rgba(184,230,230,0.45), transparent 70%)',
-            filter: 'blur(45px)',
-          }}
-        />
         <div
           style={{
             width: '70%',
@@ -69,5 +58,17 @@ export async function GET() {
       height: 630,
     }
   )
+  
+  // Add cache headers to prevent caching
+  const headers = new Headers(imageResponse.headers)
+  headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  headers.set('Pragma', 'no-cache')
+  headers.set('Expires', '0')
+  
+  return new Response(imageResponse.body, {
+    status: imageResponse.status,
+    statusText: imageResponse.statusText,
+    headers: headers,
+  })
 }
 

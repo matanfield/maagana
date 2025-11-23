@@ -16,7 +16,7 @@ export const metadata = {
     description: 'מקימים יחד כפר נופש קואופרטיבי בכנרת. טבע, פשטות, קהילה.',
     images: [
       {
-        url: `${siteUrl}/og-image`,
+        url: `${siteUrl}/og-image?v=2`,
         width: 1200,
         height: 630,
         alt: 'מעגנה - בית משלנו על המים',
@@ -27,7 +27,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'מעגנה - בית משלנו על המים',
     description: 'מקימים יחד כפר נופש קואופרטיבי בכנרת. טבע, פשטות, קהילה.',
-    images: [`${siteUrl}/og-image`],
+    images: [`${siteUrl}/og-image?v=2`],
   },
   alternates: {
     canonical: siteUrl,
