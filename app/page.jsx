@@ -239,7 +239,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <header className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden pt-24 md:pt-28">
         <div className="z-10 space-y-8 max-w-3xl animate-fade-in-up">
           <h1 className="text-5xl md:text-7xl font-serif text-gray-900 leading-tight">
             בית משלנו <br/> על המים.
