@@ -20,7 +20,7 @@ const WatercolorBlob = ({ color, className = '', opacity = 'opacity-20', circula
       style={{ 
         borderRadius: shape,
         backgroundColor: color,
-        transform: 'scale(1.2)'
+        transform: 'scale(1.0)'
       }}
     />
   );
@@ -47,8 +47,8 @@ const SketchIllustration = ({ type, blobColor }) => {
         <>
           <WatercolorBlob 
             color={blobColor} 
-            className="w-[320px] h-[320px] inset-0 m-auto" 
-            opacity={blobColor === "#B8E6E6" ? "opacity-60" : "opacity-25"} 
+            className="w-[240px] h-[240px] md:w-[320px] md:h-[320px] inset-0 m-auto" 
+            opacity={blobColor === "#B8E6E6" ? "opacity-40 md:opacity-60" : "opacity-20 md:opacity-25"} 
             circular={true} 
           />
         </>
