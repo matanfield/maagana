@@ -271,7 +271,7 @@ export default function Home() {
         <Section 
           id="simplicity"
           title="פשטות"
-          text="ימים אחרים. זכרון. חופשה פשוטה. ערסל על המים. צל של עץ. אנשים שאוהבים. מקום שהוא בית."
+          text="ימים אחרים. זכרון. חופשה פשוטה. ערסל על המים. צל של עץ. אנשים שאוהבים."
           type="vibe"
           reverse={true}
         />
