@@ -17,17 +17,22 @@ async function initializeDatabase() {
   if (dbInitialized) return;
   
   try {
+    // Enable UUID extension
+    await pool.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+    
     const createTableQuery = `
       CREATE TABLE IF NOT EXISTS people (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
         email VARCHAR(255) UNIQUE NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
     await pool.query(createTableQuery);
     dbInitialized = true;
+    console.log('Database initialized: people table created with UUID');
   } catch (error) {
     console.error('Error initializing database:', error);
+    throw error;
   }
 }
 
