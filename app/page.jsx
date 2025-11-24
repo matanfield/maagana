@@ -326,7 +326,7 @@ export default function Home() {
               ) : isSubmitting ? (
                 'שולח...'
               ) : (
-                'כאן'
+                'בעניין'
               )}
             </button>
           </form>
